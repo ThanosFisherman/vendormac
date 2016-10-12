@@ -1,0 +1,15 @@
+group 'com.fisherman.vendormac'
+version '1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'kxml2:kxml2:2.3.0'
+}
