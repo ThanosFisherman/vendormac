@@ -22,9 +22,6 @@ import java.util.StringTokenizer;
 
 public class VendorMac
 {
-
-    private static final boolean D = true;
-
     private static final String DEFAULT_SOURCE_FILE = "oui.txt";
     private static final String DEFAULT_DEST_PATH = "vendorMacs-generated.prop";
     private static final String APPLE_ENUM_PATH = "apple-enum-generated.txt";
@@ -50,15 +47,15 @@ public class VendorMac
     private static void loadOUIAndWrite(final String source) throws IOException
     {
 
-        BufferedReader bfr = new BufferedReader(new InputStreamReader(new FileInputStream(source)));
-        BufferedWriter bfw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(DEFAULT_DEST_PATH)));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(source)));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(DEFAULT_DEST_PATH)));
         String tmp;
 
-        bfw.append("* Reference from: http://standards-oui.ieee.org/oui.txt").append("\n");
-        bfw.append("*").append(bfr.readLine()).append("\n\n");
+        //bw.append("* Reference from: http://standards-oui.ieee.org/oui.txt").append("\n");
+        // bw.append("*").append(br.readLine()).append("\n\n");
 
 
-        while ((tmp = bfr.readLine()) != null)
+        while ((tmp = br.readLine()) != null)
         {
             if (!tmp.contains(DELIM))
                 continue;
@@ -73,14 +70,23 @@ public class VendorMac
             if (stk.hasMoreTokens())
                 vendor = stk.nextToken().trim();
 
-            // Make '=' separated
-            bfw.append(prefix).append("=").append(vendor).append("\n");
+            // Make '=' separated and only get the first two words from vendor for the shake of brevity
+            bw.append(prefix).append("=").append(getFirstTwo(vendor)).append("\n");
         }
 
-        bfr.close();
-        bfw.close();
+        br.close();
+        bw.close();
 
         System.out.println("Done!!!, File generated : " + DEFAULT_DEST_PATH);
+    }
+
+    private static String getFirstTwo(String original)
+    {
+        String arr[] = original.split(" ");
+        if (arr.length >= 2)
+            return arr[0] + " " + arr[1];
+        else
+            return arr[0];
     }
 
     static private final String APPLE_ENUM_PREFIX =
@@ -242,7 +248,6 @@ public class VendorMac
 
     private static void downloadouitxt() throws IOException
     {
-
         System.out.println("Downloading oui file... from http://standards-oui.ieee.org/oui.txt");
 
         int size;
@@ -252,18 +257,15 @@ public class VendorMac
         conn.setRequestMethod("HEAD");
         size = conn.getContentLength();
 
-        if (D)
-        {
-            System.out.println("url = " + url);
-            System.out.println("protocol = " + url.getProtocol());
-            System.out.println("host = " + url.getHost());
-            System.out.println("content = " + url.getContent());
-            System.out.println("size = " + size + "bytes");
-            System.out.println("");
-        }
+        System.out.println("url = " + url);
+        System.out.println("protocol = " + url.getProtocol());
+        System.out.println("host = " + url.getHost());
+        System.out.println("content = " + url.getContent());
+        System.out.println("size = " + size + "bytes");
+        System.out.println("");
 
-        BufferedInputStream in = new BufferedInputStream(url.openStream());
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        BufferedInputStream bis = new BufferedInputStream(url.openStream());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         byte[] buff = new byte[2048];
         int read;
@@ -272,9 +274,8 @@ public class VendorMac
 
         long begin = System.currentTimeMillis();
 
-        while ((read = in.read(buff)) != -1)
+        while ((read = bis.read(buff)) != -1)
         {
-
             total += read;
             int cur = (total * 100) / size;
 
@@ -284,26 +285,15 @@ public class VendorMac
                 int elasped = (int) ((System.currentTimeMillis() - begin) / 1000);
                 System.out.println(String.format("%7d bytes / %7d bytes (%3d percent), %3ds elasped.", total, size, progress, elasped));
             }
-            out.write(buff, 0, read);
+            baos.write(buff, 0, read);
         }
 
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(DEFAULT_SOURCE_FILE));
-        bos.write(out.toByteArray());
+        bos.write(baos.toByteArray());
         bos.close();
-        in.close();
+        bis.close();
+        baos.close();
         conn.disconnect();
-
-
-        //        BufferedReader bfr = new BufferedReader(new InputStreamReader(
-        //                url.openStream()));
-        //        BufferedWriter bfw = new BufferedWriter(new FileWriter(DEFAULT_SOURCE_FILE));
-        //
-        //        while ((buf = bfr.readLine()) != null) {
-        //            bfw.append(buf).append("\n");
-        //        }
-        //
-        //        bfr.close();
-        //        bfw.close();
 
         System.out.println("download done!!!, total elasped: " + ((System.currentTimeMillis() - begin) / 1000) + "s.");
     }

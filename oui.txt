@@ -108197,17 +108197,17 @@ D8C771     (base 16)		HUAWEI TECHNOLOGIES CO.,LTD
 				Richardson  TX  75082
 				US
 
-5C-BA-37   (hex)		Microsoft Corporation
-5CBA37     (base 16)		Microsoft Corporation
-				31807 - 25th Ave SW
-				Federal Way    98023
-				US
-
 48-A3-80   (hex)		Gionee Communication Equipment Co.,Ltd.
 48A380     (base 16)		Gionee Communication Equipment Co.,Ltd.
 				21/F,Times Technology Building,No. 7028,Shennan Avenue,Futian District
 				Shenzhen    518000
 				CN
+
+5C-BA-37   (hex)		Microsoft Corporation
+5CBA37     (base 16)		Microsoft Corporation
+				31807 - 25th Ave SW
+				Federal Way    98023
+				US
 
 2C-39-96   (hex)		Sagemcom Broadband SAS
 2C3996     (base 16)		Sagemcom Broadband SAS

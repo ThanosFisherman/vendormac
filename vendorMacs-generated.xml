@@ -18071,8 +18071,8 @@
   <VendorMapping mac_prefix="0060D3" vendor_name="ATT" />
   <VendorMapping mac_prefix="800010" vendor_name="ATT" />
   <VendorMapping mac_prefix="08006A" vendor_name="ATT" />
-  <VendorMapping mac_prefix="5CBA37" vendor_name="Microsoft Corporation" />
   <VendorMapping mac_prefix="48A380" vendor_name="Gionee Communication Equipment Co.,Ltd." />
+  <VendorMapping mac_prefix="5CBA37" vendor_name="Microsoft Corporation" />
   <VendorMapping mac_prefix="2C3996" vendor_name="Sagemcom Broadband SAS" />
   <VendorMapping mac_prefix="0054BD" vendor_name="Swelaser AB" />
   <VendorMapping mac_prefix="0057D2" vendor_name="Cisco Systems, Inc" />
