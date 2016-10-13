@@ -6,7 +6,7 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 
 /**
- * Updated Thu Oct 13 06:00:53 EEST 2016 , 
+ * Updated Thu Oct 13 22:31:10 EEST 2016 , 
  *  Reference from: http://standards-oui.ieee.org/oui.txt
  * 
  *  Using utils/vendormac.jar, Generate enum elements from http://standards-oui.ieee.org/oui.txt
