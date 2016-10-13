@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.Normalizer;
 import java.util.Date;
 import java.util.StringTokenizer;
 
@@ -71,7 +72,7 @@ public class VendorMac
                 vendor = stk.nextToken().trim();
 
             // Make '=' separated and only get the first two words from vendor for the shake of brevity
-            bw.append(prefix).append("=").append(getFirstTwo(vendor)).append("\n");
+            bw.append(prefix).append("=").append(simplifyString(vendor)).append("\n");
         }
 
         br.close();
@@ -80,9 +81,10 @@ public class VendorMac
         System.out.println("Done!!!, File generated : " + DEFAULT_DEST_PATH);
     }
 
-    private static String getFirstTwo(String original)
+    private static String simplifyString(String original)
     {
-        String arr[] = original.split(" ");
+        final String normalizedString = Normalizer.normalize(original, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        final String arr[] = normalizedString.split("\\s+");
         if (arr.length >= 2)
             return arr[0] + " " + arr[1];
         else
@@ -218,7 +220,7 @@ public class VendorMac
                 vendor = stk.nextToken().trim();
 
             // xml attribute
-            writeLine(serializer, prefix, getFirstTwo(vendor));
+            writeLine(serializer, prefix, simplifyString(vendor));
         }
 
         serializer.endTag(NAMESPACE, "MacAddressVendorMappings");
