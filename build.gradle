@@ -13,3 +13,15 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile 'kxml2:kxml2:2.3.0'
 }
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes('Implementation-Title': 'VendorMac FatJar',
+                'Implementation-Version': version,
+                'Main-Class': 'com.fisherman.vendormac.VendorMac')
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

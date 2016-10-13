@@ -218,7 +218,7 @@ public class VendorMac
                 vendor = stk.nextToken().trim();
 
             // xml attribute
-            writeLine(serializer, prefix, vendor);
+            writeLine(serializer, prefix, getFirstTwo(vendor));
         }
 
         serializer.endTag(NAMESPACE, "MacAddressVendorMappings");
@@ -322,26 +322,21 @@ public class VendorMac
         else
             MODE = MODE_FILE;
 
-        do
+        switch (MODE)
         {
-            // web mode, download file
-            if (MODE == MODE_URL)
-            {
+            case MODE_URL:
                 try
                 {
                     ouiFile = DEFAULT_SOURCE_FILE;
                     downloadouitxt();
-                    break;
                 }
                 catch (IOException e)
                 {
                     System.out.println("Check your internet connection...");
                     e.printStackTrace();
                 }
-            }
-
-            if (MODE == MODE_FILE)
-            {
+                break;
+            case MODE_FILE:
                 if (new File(args[0]).isFile())
                     ouiFile = args[0];
                 else
@@ -349,10 +344,8 @@ public class VendorMac
                     System.out.println(args[0] + " does not exist. use default source file: " + DEFAULT_SOURCE_FILE);
                     ouiFile = DEFAULT_SOURCE_FILE;
                 }
-            }
-
+                break;
         }
-        while (false);
 
         System.out.println("");
 
