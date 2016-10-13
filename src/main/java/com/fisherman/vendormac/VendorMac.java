@@ -52,15 +52,15 @@ public class VendorMac
 
         BufferedReader bfr = new BufferedReader(new InputStreamReader(new FileInputStream(source)));
         BufferedWriter bfw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(DEFAULT_DEST_PATH)));
-        String tmp = null;
+        String tmp;
 
         bfw.append("* Reference from: http://standards-oui.ieee.org/oui.txt").append("\n");
-        bfw.append("*" + bfr.readLine()).append("\n\n");
+        bfw.append("*").append(bfr.readLine()).append("\n\n");
 
 
         while ((tmp = bfr.readLine()) != null)
         {
-            if (tmp.contains(DELIM) == false)
+            if (!tmp.contains(DELIM))
                 continue;
 
             StringTokenizer stk = new StringTokenizer(tmp.replace(DELIM, "="), EQUAL);
@@ -108,7 +108,7 @@ public class VendorMac
 
         BufferedReader bfr = new BufferedReader(new InputStreamReader(new FileInputStream(APPLE_ENUM_PATH)));
         BufferedWriter bfw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(APPLE_MACS_CLASS)));
-        String tmp = null;
+        String tmp;
 
         bfw.append(APPLE_ENUM_PREFIX).append("\n");
 
@@ -135,18 +135,18 @@ public class VendorMac
 
         BufferedReader bfr = new BufferedReader(new InputStreamReader(new FileInputStream(source)));
         BufferedWriter bfw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(APPLE_ENUM_PATH)));
-        String tmp = null;
+        String tmp;
 
         bfw.append("* Reference from: http://standards-oui.ieee.org/oui.txt").append("\n");
-        bfw.append("* " + bfr.readLine()).append("\n\n");
+        bfw.append("* ").append(bfr.readLine()).append("\n\n");
 
 
         while ((tmp = bfr.readLine()) != null)
         {
-            if (tmp.contains(DELIM) == false)
+            if (!tmp.contains(DELIM))
                 continue;
 
-            if (tmp.contains("Apple") == false)
+            if (!tmp.contains("Apple"))
                 continue;
 
             StringTokenizer stk = new StringTokenizer(tmp.replace(DELIM, "="), EQUAL);
@@ -183,11 +183,11 @@ public class VendorMac
 
         BufferedReader bfr = new BufferedReader(new InputStreamReader(new FileInputStream(source)));
         BufferedWriter bfw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(VENDOR_MACS_PATH)));
-        String tmp = null;
+        String tmp;
 
         // xml
         serializer.setOutput(bfw);
-        serializer.startDocument(null, Boolean.valueOf(true));
+        serializer.startDocument(null, Boolean.TRUE);
         serializer.ignorableWhitespace("\n");
         serializer.comment(bfr.readLine());
         serializer.ignorableWhitespace("\n");
@@ -198,7 +198,7 @@ public class VendorMac
 
         while ((tmp = bfr.readLine()) != null)
         {
-            if (tmp.contains(DELIM) == false)
+            if (!tmp.contains(DELIM))
                 continue;
 
             StringTokenizer stk = new StringTokenizer(tmp.replace(DELIM, "="), EQUAL);
@@ -245,7 +245,7 @@ public class VendorMac
 
         System.out.println("Downloading oui file... from http://standards-oui.ieee.org/oui.txt");
 
-        int size = 0;
+        int size;
 
         URL url = new URL("http://standards-oui.ieee.org/oui.txt");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -266,7 +266,7 @@ public class VendorMac
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         byte[] buff = new byte[2048];
-        int read = 0;
+        int read;
         int progress = -1;
         int total = 0;
 
@@ -309,11 +309,11 @@ public class VendorMac
     }
 
     /**
-     * @param args
-     * @throws IOException
-     * @throws XmlPullParserException
+     * @param args - arguments
+     * @throws IOException            - When files cannot be created
+     * @throws XmlPullParserException - When XML file cannot be created
      */
-    public static void main(String[] args) throws XmlPullParserException
+    public static void main(String[] args) throws XmlPullParserException, IOException
     {
 
         String ouiFile = null;
@@ -352,7 +352,7 @@ public class VendorMac
 
             if (MODE == MODE_FILE)
             {
-                if (new File(args[0]).isFile() == true)
+                if (new File(args[0]).isFile())
                     ouiFile = args[0];
                 else
                 {
@@ -366,16 +366,9 @@ public class VendorMac
 
         System.out.println("");
 
-        try
-        {
-            loadOUIAndWrite(ouiFile);
-            loadOUIAndmakeAppleMacEnumElements(ouiFile);
-            loadOUIAndmakeXml(ouiFile);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        loadOUIAndWrite(ouiFile);
+        loadOUIAndmakeAppleMacEnumElements(ouiFile);
+        loadOUIAndmakeXml(ouiFile);
     }
 
 }
