@@ -83,12 +83,29 @@ public class VendorMac
 
     private static String simplifyString(String original)
     {
-        final String normalizedString = Normalizer.normalize(original, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        String normalizedString = Normalizer.normalize(original, Normalizer.Form.NFD)
+                                            .replaceAll("[^\\p{ASCII}]", "")
+                                            .replace(",", "")
+                                            .replace("&amp;", "&")
+                                            .replaceAll("[.]$", "");
+        if (normalizedString.toLowerCase().contains("samsung"))
+            return "Samsung";
+        else if (normalizedString.toLowerCase().contains("bioMrieux"))
+            return "bioMerieux";
+
         final String arr[] = normalizedString.split("\\s+");
         if (arr.length >= 2)
-            return arr[0] + " " + arr[1];
+        {
+            if (arr[1].toLowerCase().contains("inc") || arr[1].toLowerCase().contains("corp") || arr[1].toLowerCase().contains("co.") ||
+                arr[1].toLowerCase().contains("ltd") || arr[1].length() <= 2)
+                return arr[0];
+            else
+                return arr[0] + " " + arr[1].replaceAll("[.]$", "");
+        }
         else
+        {
             return arr[0];
+        }
     }
 
     static private final String APPLE_ENUM_PREFIX =
