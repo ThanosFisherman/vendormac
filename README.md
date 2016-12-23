@@ -1,5 +1,3 @@
-Gradle port of [https://github.com/blomdhal22/vendormac](https://github.com/blomdhal22/vendormac)
-
 Vendormac
 =========
 
