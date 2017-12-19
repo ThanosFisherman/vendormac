@@ -40,7 +40,7 @@ Output files
 * vendorMacs-generated.xml
 	- xml file format
 
-###applee-enum-generated.txt
+### applee-enum-generated.txt
 
 *File contents*
 ```
