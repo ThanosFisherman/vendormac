@@ -95,7 +95,7 @@ public enum AppleMacs {
 }
 ```
 
-###vendorMacs-generated.prop
+### vendorMacs-generated.prop
 '=' Seperated file.
 
 *File contents*
@@ -133,7 +133,7 @@ public enum AppleMacs {
     } 
 ```
 
-###vendorMacs-generated.xml
+### vendorMacs-generated.xml
 xml file format.
 
 *File content*
