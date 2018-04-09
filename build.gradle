@@ -1,8 +1,7 @@
-group 'com.fisherman.vendormac'
-version '2.0'
-
 apply plugin: 'java'
 
+group = 'com.fisherman.vendormac'
+version = '2.0'
 sourceCompatibility = 1.8
 
 repositories {
